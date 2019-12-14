@@ -17,3 +17,5 @@ It also provides a custom search if user wants also if length is unknown you can
 further you can explore.
 
 in further versions the time it takes to find words can be reduced which i feel is really high.
+
+a big thanks to somdev sangwan(s0md3v) <3
