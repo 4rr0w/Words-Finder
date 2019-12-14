@@ -1,4 +1,4 @@
-![Image description](https://github.com/4rr0w/Golden-Darknesss/Golden-Darknesss.png)
+![Logo of this Script](https://www.github.com/4rr0w/Golden-Darknesss/master/Golden-Darknesss.png)
 
 
 # Golden-Darknesss
