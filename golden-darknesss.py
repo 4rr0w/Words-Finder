@@ -83,7 +83,7 @@ if not unknownLength:
 		if length is -1 or length > 0 :
 			if start is '' and end is '' :
 				if length == -1 :
-					print(Fore.red+'length of word is required for this case.')
+					print(Fore.RED+'length of word is required for this case.')
 					exit()
 				elif inbetween is not '':
 					if (index + len(inbetween))<= length :
@@ -94,7 +94,7 @@ if not unknownLength:
 							url += '-'
 
 					else:
-						print(Fore.red+'Invalid Case. Please check the length of word.')
+						print(Fore.RED+'Invalid Case. Please check the length of word.')
 						exit()
 
 				else:
@@ -130,7 +130,7 @@ if not unknownLength:
 					url += end
 			
 			else:
-				print(Fore.red+'In between string index overlaps the starting string.')
+				print(Fore.RED+'In between string index overlaps the starting string.')
 				exit()
 
 			
@@ -141,7 +141,7 @@ if not unknownLength:
 	elif custom_regex.match(custom) :
 		url = custom
 	else:
-		print(Fore.red+'Custom search url isn\'t valid.')
+		print(Fore.RED+'Custom search url isn\'t valid.')
 		exit()
 
 else :
@@ -153,7 +153,7 @@ else :
 	else:
 		url += end
 if url is '*' :
-	print(Fore.red+"Very few information parsed to find words.")
+	print(Fore.RED+"Very few information parsed to find words.")
 
 
 print(Style.RESET_ALL)
