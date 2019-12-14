@@ -1,15 +1,11 @@
 from __future__ import print_function
 from bs4 import BeautifulSoup
-from pathlib import Path
 from colorama import Fore, Back, Style
 import requests
-import ssl
 import os
 import argparse
-import re
-import json
 import math
-import urllib3
+
 
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
