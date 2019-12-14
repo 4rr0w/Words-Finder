@@ -136,7 +136,7 @@ if not unknownLength:
 			
 
 		else:
-			print(Fore.red+'Length of word can\'t be negative')
+			print(Fore.RED+'Length of word can\'t be negative')
 			exit();
 	elif custom_regex.match(custom) :
 		url = custom
