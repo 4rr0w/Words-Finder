@@ -6,6 +6,7 @@ import os
 import argparse
 import math
 import urllib3
+import re
 
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
