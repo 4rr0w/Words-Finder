@@ -150,7 +150,7 @@ else :
 	else:
 		url += end
 if url is '*' :
-	print(Fore.RED+"Very few information parsed to find words.")
+	print(Fore.RED+"WARNING : Very few information parsed to find words.")
 
 
 print(Style.RESET_ALL)
