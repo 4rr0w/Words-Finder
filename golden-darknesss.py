@@ -161,6 +161,9 @@ j=1
 source = requests.get(url = scrap_url,verify = False).text
 soup = BeautifulSoup(source, 'lxml')
 page = soup.find('p',class_ ='total')
+if page is None :
+	print('No words could be found.')
+	exit()
 print(page.text)
 words = ''.join(filter(lambda x: x.isdigit(), page.text))
 pages = math.ceil(float(words)/50.0)
