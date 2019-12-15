@@ -176,7 +176,7 @@ while j<=pages:
 	for a in div.findChildren('a',recursive=False):
 			result = ''.join([i for i in a.text if not i.isdigit()])
 			print(result.strip())
-			f.write(result.strip())
+			f.write(result.strip() + '\n')
 	j+=1
 	source = requests.get(url = scrap_url + str(j),verify = False).text
 	soup = BeautifulSoup(source, 'lxml')
