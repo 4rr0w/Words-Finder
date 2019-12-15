@@ -156,7 +156,7 @@ if url is '*' :
 print(Style.RESET_ALL)
 scrap_url = 'https://morewords.com/search?w=' + url + '&page='
 
-os.system('clear')
+
 j=1
 source = requests.get(url = scrap_url,verify = False).text
 soup = BeautifulSoup(source, 'lxml')
