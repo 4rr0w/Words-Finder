@@ -172,14 +172,14 @@ while os.path.isfile(url + m):
 f = open (url + m, 'w')
 j=1
 while j<=pages:
-	source = requests.get(url = scrap_url + str(j),verify = False).text
-	soup = BeautifulSoup(source, 'lxml')
 	div = soup.find('div',class_ = 'search-results')
 	for a in div.findChildren('a',recursive=False):
 			result = ''.join([i for i in a.text if not i.isdigit()])
 			print(result.strip())
 			f.write(result.strip())
 	j+=1
+	source = requests.get(url = scrap_url + str(j),verify = False).text
+	soup = BeautifulSoup(source, 'lxml')
 		
 	
 
