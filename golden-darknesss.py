@@ -168,6 +168,7 @@ m=''
 
 while os.path.isfile(url + m):
 	m='(' + str(j) + ')'
+	j+=1
 f = open (url + m, 'w')
 j=1
 while j<=pages:
@@ -176,8 +177,8 @@ while j<=pages:
 	div = soup.find('div',class_ = 'search-results')
 	for a in div.findChildren('a',recursive=False):
 			result = ''.join([i for i in a.text if not i.isdigit()])
-			print(result)
-			f.write(result)
+			print(result.strip())
+			f.write(result.strip())
 	j+=1
 		
 	
