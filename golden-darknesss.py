@@ -1,6 +1,7 @@
 from __future__ import print_function
 from bs4 import BeautifulSoup
 from colorama import Fore, Back, Style
+from huepy import *
 import requests
 import os
 import argparse
@@ -35,7 +36,7 @@ custom_regex = re.compile('[(*)(-)a-zA-Z]+')
 entered_regex = re.compile('\\w*[^A-Za-z(-)(*)]+\\w*')
 exit_ = False
 
-print(Fore.RED+'''
+print(red('''
                          WELCOME TO......
                        
 	                    __       __              
@@ -52,23 +53,22 @@ print(Fore.RED+'''
 	 / /_/ / / /_/ /  / /     / ,<    / / / //  __/ (__  )  (__  )  (__  ) 
 	/_____/  \\__,_/  /_/     /_/|_|  /_/ /_/ \\___/ /____/  /____/  /____/                                                                     
 	 
- ''')
-print(Style.RESET_ALL)
+ '''))
+
 
 if not unknownLength:
 	if length is -1 and custom is '739292hd' and unknownLength is False:
-		print(Fore.RED+"at least one of -l [LENGTH] , -c [CUSTOM] and -u [UNKNOWN LENGTH] required")
-		exit_ = True
+		print(bad("at least one of -l [LENGTH] , -c [CUSTOM] and -u [UNKNOWN LENGTH] required"))
+		exit()
 	elif entered_regex.match(start) or entered_regex.match(end) or entered_regex.match(inbetween):
-		print(Fore.RED+"Words aren't allowed to contain characters other than alphabets.")
-		exit_ = True
+		print(bad("Words aren't allowed to contain characters other than alphabets."))
+		exit()
 	elif length > 0 :
 		if length < len(start + inbetween +  end):
-			print(Fore.RED+"Please check the length of string entered. its sub strings seems to exceed it.")
-			exit_ = True
+			print(bad("Please check the length of string entered. its sub strings seems to exceed it."))
+			exit()
 
 	if(exit_):
-		print(Style.RESET_ALL)
 		exit()
 
 
@@ -80,7 +80,7 @@ if not unknownLength:
 		if length is -1 or length > 0 :
 			if start is '' and end is '' :
 				if length == -1 :
-					print(Fore.RED+'length of word is required for this case.')
+					print(bad('length of word is required for this case.'))
 					exit()
 				elif inbetween is not '':
 					if (index + len(inbetween))<= length :
@@ -91,7 +91,7 @@ if not unknownLength:
 							url += '-'
 
 					else:
-						print(Fore.RED+'Invalid Case. Please check the length of word.')
+						print(bad('Invalid Case. Please check the length of word.'))
 						exit()
 
 				else:
@@ -127,18 +127,18 @@ if not unknownLength:
 					url += end
 			
 			else:
-				print(Fore.RED+'In between string index overlaps the starting string.')
+				print(bad('In between string index overlaps the starting string.'))
 				exit()
 
 			
 
 		else:
-			print(Fore.RED+'Length of word can\'t be negative')
+			print(bad('Length of word can\'t be negative'))
 			exit();
 	elif custom_regex.match(custom) :
 		url = custom
 	else:
-		print(Fore.RED+'Custom search url isn\'t valid.')
+		print(bad('Custom search url isn\'t valid.'))
 		exit()
 
 else :
@@ -150,10 +150,8 @@ else :
 	else:
 		url += end
 if url is '*' :
-	print(Fore.RED+"WARNING : Very few information parsed to find words.")
+	print(que("WARNING : Very few information parsed to find words."))
 
-
-print(Style.RESET_ALL)
 scrap_url = 'https://morewords.com/search?w=' + url + '&page='
 
 
@@ -162,9 +160,9 @@ source = requests.get(url = scrap_url,verify = False).text
 soup = BeautifulSoup(source, 'lxml')
 page = soup.find('p',class_ ='total')
 if page is None :
-	print('No words could be found.')
+	print(info('No words could be found.'))
 	exit()
-print(page.text)
+print(good(page.text))
 words = ''.join(filter(lambda x: x.isdigit(), page.text))
 pages = math.ceil(float(words)/50.0)
 m=''
