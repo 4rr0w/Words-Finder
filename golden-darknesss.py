@@ -8,6 +8,7 @@ import argparse
 import math
 import urllib3
 import re
+import mechanize
 
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -57,7 +58,7 @@ print(red('''
 
 
 if not unknownLength:
-	if length is -1 and custom is '739292hd' and unknownLength is False:
+	if length == -1 and custom == '739292hd' and unknownLength == False:
 		print(bad("at least one of -l [LENGTH] , -c [CUSTOM] and -u [UNKNOWN LENGTH] required"))
 		exit()
 	elif entered_regex.match(start) or entered_regex.match(end) or entered_regex.match(inbetween):
@@ -72,17 +73,17 @@ if not unknownLength:
 		exit()
 
 
-	if custom is '739292hd' :
-		if(index is -1):
+	if custom == '739292hd' :
+		if(index == -1):
 			index = len (start)
 
 
-		if length is -1 or length > 0 :
-			if start is '' and end is '' :
+		if length == -1 or length > 0 :
+			if start == '' and end == '' :
 				if length == -1 :
 					print(bad('length of word is required for this case.'))
 					exit()
-				elif inbetween is not '':
+				elif inbetween != '':
 					if (index + len(inbetween))<= length :
 						for i in range(length - index):
 							url += '-'
@@ -99,7 +100,7 @@ if not unknownLength:
 						url += '-'
 
 
-			elif start is '' :
+			elif start == '' :
 				for i in range(index):
 					url += '-'
 				url += inbetween
@@ -109,7 +110,7 @@ if not unknownLength:
 				
 
 			elif index - len(start) >= 0  :
-				if end is '':
+				if end == '':
 					url += start
 					for i in range(index - len(start)):
 						url += '-'
@@ -143,52 +144,59 @@ if not unknownLength:
 
 else :
 	url = start + '*' + inbetween
-	if(inbetween is not ''):
+	if(inbetween != ''):
 		url += '*'
-		if(end is not ''):
+		if(end != ''):
 			url += end
 	else:
 		url += end
-if url is '*' :
+if url == '*' :
 	print(que("WARNING : Very few information parsed to find words."))
 
-scrap_url = 'https://morewords.com/search?w=' + url + '&page='
+scrap_url = 'https://morewords.com/search?w=' + url
 
 
-j=1
-source = requests.get(url = scrap_url,verify = False).text
+
+words = []
+
+br = mechanize.Browser()
+br.open(scrap_url)
+
+
+for form in br.forms():
+    if form.attrs.get('id') == 'max-results-form':
+        br.form = form
+        break
+    
+
+
+br.form["max_results"] = ["all"]
+
+
+all_submit = br.submit()
+source = br.response().read()
 soup = BeautifulSoup(source, 'lxml')
-page = soup.find('p',class_ ='total')
-if page is None :
-	print(info('No words could be found.'))
-	exit()
-print(good(page.text))
-words = ''.join(filter(lambda x: x.isdigit(), page.text))
-pages = math.ceil(float(words)/50.0)
-m=''
 
+div = soup.find('div',class_ = 'search-results')
+
+m=''
+j=1
 while os.path.isfile(url + m):
 	m='(' + str(j) + ')'
 	j+=1
-f = open (url + m, 'w')
-j=1
-while j<=pages:
-	div = soup.find('div',class_ = 'search-results')
-	for a in div.findChildren('a',recursive=False):
-			result = ''.join([i for i in a.text if not i.isdigit()])
-			print(result.strip())
-			f.write(result.strip() + '\n')
-	j+=1
-	source = requests.get(url = scrap_url + str(j),verify = False).text
-	soup = BeautifulSoup(source, 'lxml')
-		
-	
+
+f = open (url + m + ".txt", 'w')
+
+for a in div.findChildren('a',recursive=False):
+	result = ''.join([i for i in a.text if not i.isdigit()])
+	words.append(result.strip())
+	f.write(result.strip() + '\n')	
 
 
+f.close()
 
 
-
-
+print(good(str(len(words)) + " words saved to " + url + m + ".txt "))
 
 
 
